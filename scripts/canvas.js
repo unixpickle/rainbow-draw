@@ -46,7 +46,10 @@
     ctx.lineJoin = 'round';
     for (var i = 0, len = this._paths.length; i < len; ++i) {
       var path = this._paths[i];
-      if (path.length < 2) {
+      if (path.length === 1) {
+        ctx.beginPath();
+        ctx.arc(path[0].x, path[0].y, 5, 0, Math.PI*2);
+        ctx.fill();
         continue;
       }
       ctx.beginPath();
@@ -69,6 +72,7 @@
       var canvasRect = this._canvas.getBoundingClientRect();
       var path = [{x: e.clientX-canvasRect.left, y: e.clientY-canvasRect.top}];
       this._paths.push(path);
+      this._draw();
 
       var moveHandler = function(e) {
         canvasRect = this._canvas.getBoundingClientRect();
@@ -95,6 +99,7 @@
       var canvasRect = this._canvas.getBoundingClientRect();
       currentPath = [{x: t.clientX-canvasRect.left, y: t.clientY-canvasRect.top}];
       this._paths.push(currentPath);
+      this._draw();
     }.bind(this));
     this._canvas.addEventListener('touchmove', function(e) {
       var t = e.touches[0];
