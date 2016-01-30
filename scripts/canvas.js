@@ -20,6 +20,14 @@
     this._draw();
   };
 
+  Canvas.prototype.undo = function() {
+    if (this._paths.length === 0) {
+      return;
+    }
+    this._paths.splice(this._paths.length-1, 1);
+    this._draw();
+  };
+
   Canvas.prototype._resize = function() {
     this._canvas.width = this._canvas.offsetWidth * this._pixelRatio;
     this._canvas.height = this._canvas.offsetHeight * this._pixelRatio;
