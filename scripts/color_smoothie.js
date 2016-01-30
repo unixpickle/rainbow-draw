@@ -1,5 +1,7 @@
 (function() {
 
+  // A ColorSmoothie is a random colorful image which
+  // can be drawn and stretched in a canvas.
   function ColorSmoothie() {
     this._colorPoints = [];
     for (var i = 0; i < 10; ++i) {
@@ -8,10 +10,22 @@
       var color = randomColor();
       this._colorPoints.push({x: x, y: y, color: color});
     }
+    this._cache = null;
   }
 
   ColorSmoothie.prototype.draw = function(ctx, width, height) {
-    var imgData = ctx.getImageData(0, 0, width, height);
+    if (this._cache !== null && this._cache.width === width &&
+        this._cache.height === height) {
+      ctx.drawImage(this._cache, 0, 0);
+      return;
+    }
+
+    this._cache = document.createElement('canvas');
+    this._cache.width = width;
+    this._cache.height = height;
+
+    var cacheCtx = this._cache.getContext('2d');
+    var imgData = cacheCtx.getImageData(0, 0, width, height);
 
     var idx = 0;
     for (var y = 0; y < height; ++y) {
@@ -24,7 +38,8 @@
       }
     }
 
-    ctx.putImageData(imgData, 0, 0);
+    cacheCtx.putImageData(imgData, 0, 0);
+    this.draw(ctx, width, height);
   };
 
   ColorSmoothie.prototype._colorForPoint = function(x, y) {

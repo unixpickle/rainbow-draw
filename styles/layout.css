@@ -29,7 +29,7 @@ body, html {
   #canvas {
     top: 44px;
     border: none;
-    height: calc(50% - 40px);
+    height: calc(100% - 40px);
   }
 }
 
