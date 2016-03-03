@@ -49,16 +49,16 @@
     var totalRatios = 0;
     for (var i = 0, len = this._colorPoints.length; i < len; ++i) {
       var pt = this._colorPoints[i];
-      var distance = Math.sqrt(Math.pow(pt.x-x, 2) + Math.pow(pt.y-y, 2));
-      if (distance < 0.001) {
+      var distanceSquared = Math.pow(pt.x-x, 2) + Math.pow(pt.y-y, 2);
+      if (distanceSquared < 0.001) {
         return pt.color;
       }
-      totalRatios += 1/Math.pow(distance, 2);
+      totalRatios += 1 / distanceSquared;
     }
     for (var i = 0, len = this._colorPoints.length; i < len; ++i) {
       var pt = this._colorPoints[i];
-      var distance = Math.sqrt(Math.pow(pt.x-x, 2) + Math.pow(pt.y-y, 2));
-      var frac = (1 / Math.pow(distance, 2)) / totalRatios;
+      var distanceSquared = Math.pow(pt.x-x, 2) + Math.pow(pt.y-y, 2);
+      var frac = (1 / distanceSquared) / totalRatios;
       r += pt.color.r * frac;
       g += pt.color.g * frac;
       b += pt.color.b * frac;
